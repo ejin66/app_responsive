@@ -175,10 +175,10 @@ class NoDataPainter extends CustomPainter {
           TimeRange(0.2, 0.6), Offset(0.25, 0.4), Offset(0.8, 0.4),
           thick: 0.04),
       AnimatedHorizontalLine(
-          TimeRange(0.4, 0.8), Offset(0.25, 0.6), Offset(0.8, 0.6),
+          TimeRange(0.4, 0.8), Offset(0.25, 0.6), Offset(0.75, 0.6),
           thick: 0.04),
       AnimatedHorizontalLine(
-          TimeRange(0.6, 1), Offset(0.25, 0.8), Offset(0.8, 0.8),
+          TimeRange(0.6, 1), Offset(0.25, 0.8), Offset(0.7, 0.8),
           thick: 0.04),
       AnimatedArc(TimeRange(0, 0.75), Offset(1, 0.75), 0.05, pi, 2.5 * pi,
           thick: 0.03),
