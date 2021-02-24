@@ -39,16 +39,16 @@ class AppProvider extends Provider<_AppProviderData> {
   }
 
   static T watch<T extends IController, K extends Level>(IController controller) {
-  	if (!controller.isMount()) return null;
-  	
-		final findController = AppProvider.get<T>(controller.buildContext);
-		if (findController == null) return null;
-		
-		findController.get<K>()?.addListener(() {
-			controller.pageLevel.notify();
-		});
-		return findController;
-	}
+    if (!controller.isMount()) return null;
+
+    final findController = AppProvider.get<T>(controller.buildContext);
+    if (findController == null) return null;
+
+    findController.get<K>()?.addListener(() {
+      controller.pageLevel.notify();
+    });
+    return findController;
+  }
 }
 
 class _AppProviderData {
