@@ -38,12 +38,17 @@ class AppProvider extends Provider<_AppProviderData> {
         .firstWhere((element) => element is T, orElse: () => null);
   }
 
-  static T watch<T>(BuildContext context) {
-    return context
-        .watch<_AppProviderData>()
-        .caches
-        .firstWhere((element) => element is T, orElse: () => null);
-  }
+  static T watch<T extends IController, K extends Level>(IController controller) {
+  	if (!controller.isMount()) return null;
+  	
+		final findController = AppProvider.get<T>(controller.buildContext);
+		if (findController == null) return null;
+		
+		findController.get<K>()?.addListener(() {
+			controller.pageLevel.notify();
+		});
+		return findController;
+	}
 }
 
 class _AppProviderData {
