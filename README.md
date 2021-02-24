@@ -20,23 +20,23 @@ class ExamplePage extends IPage {
 
 class ExampleState extends IState<ExamplePage, ExampleController> {
 
-	final ExampleController _controller = ExampleController();
+  final ExampleController _controller = ExampleController();
 
   @override
   Widget buildChild(BuildContext context) {
-		return Scaffold(
-			appBar: AppBar(
-				title: Text("app responsive demo"),
-			),
-			body: buildBody.watch<PPage>()(context),
-		);
+    return Scaffold(
+	appBar: AppBar(
+	  title: Text("app responsive demo"),
+	),
+	body: buildBody.watch<PPage>()(context),
+    );
   }
 
-	Widget buildBody(BuildContext context) {
-		return Center(
-			child: Text(controller.text),
-		);
-	}
+  Widget buildBody(BuildContext context) {
+    return Center(
+	child: Text(controller.text),
+    );
+  }
 
   @override
   ExampleController get controller => _controller;
@@ -45,15 +45,15 @@ class ExampleState extends IState<ExamplePage, ExampleController> {
 
 class ExampleController extends IController {
 
-	String text = "android";
+  String text = "android";
 
   @override
   Future<int> load([int page]) async {
-  	Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 2), () {
         text = "flutter";
         get<PPage>().notify();
     });
-  	return LoadState.loaded;
+    return LoadState.loaded;
   }
 
 }
