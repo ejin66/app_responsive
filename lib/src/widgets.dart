@@ -100,7 +100,7 @@ class NoDataWidget extends StatefulWidget {
 
   NoDataWidget({
     this.color = Colors.grey,
-    this.size = const Size(180, 140),
+    this.size = const Size(190, 140),
     this.duration = const Duration(milliseconds: 600),
   });
 
@@ -193,9 +193,9 @@ class NoDataPainter extends CustomPainter {
     painter.color = color;
     painter.style = PaintingStyle.stroke;
     canvas.save();
-    canvas.translate(0.11 * size.width - 0.05 * size.height, 0);
+    canvas.translate(0.08 * size.width - 0.025 * size.height, 0);
     final _size = Size(
-      size.width - 2 * 0.11 * size.width,
+      size.width - 2 * 0.08 * size.width,
       size.height - 0.15 * size.height,
     );
     animatedPathList.forEach((element) {
