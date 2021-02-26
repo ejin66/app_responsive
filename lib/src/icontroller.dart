@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
+import '../app_responsive.dart';
 import 'responsive_level.dart';
 import 'utils.dart';
 
@@ -18,9 +19,10 @@ abstract class IController {
   PPage pageLevel;
   Load loadLevel;
 
-  BuildContext buildContext;
+  IState _iState;
+  BuildContext get buildContext => _iState?.context;
 
-  bool isMount() => buildContext != null;
+  bool isMount() => _iState != null;
 
   IController() {
     pageLevel = PPage(this);
@@ -77,6 +79,10 @@ abstract class IController {
 
     providers.add(ChangeNotifierProvider<T>.value(value: _level));
 
+    if (isMount()) {
+      _iState?.rebuild();
+    }
+
     return true;
   }
 
@@ -84,9 +90,9 @@ abstract class IController {
     return _levels.firstWhere((element) => element.runtimeType == T, orElse: () => null);
   }
 
-  mount(BuildContext context) => buildContext = context;
+  mount(covariant IState state) => _iState = state;
 
-  unmount() => buildContext = null;
+  unmount() => _iState = null;
 
   /// 页面初始化时调用
   Future<int> load([int page]);

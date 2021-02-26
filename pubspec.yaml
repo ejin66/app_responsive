@@ -1,8 +1,7 @@
 name: app_responsive
 description: app responsive
-version: 0.0.1
-author:
-homepage:
+version: 0.0.2
+homepage: https://github.com/ejin66
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -11,8 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: 4.3.3
-  pull_to_refresh: 1.6.4
+  provider: ^4.3.3
+  pull_to_refresh: ^1.6.3
 
 dev_dependencies:
   flutter_test:

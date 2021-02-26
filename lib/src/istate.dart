@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'icontroller.dart';
 
 
@@ -11,7 +12,7 @@ abstract class IState<T extends IPage, K extends IController> extends State<T> {
   @override
   void initState() {
     super.initState();
-    controller.mount(context);
+    controller.mount(this);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       controller.refresh();
     });
@@ -23,6 +24,8 @@ abstract class IState<T extends IPage, K extends IController> extends State<T> {
     controller.unmount();
     if (!keepAlive) controller.dispose();
   }
+
+  rebuild() => setState(() {});
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +39,8 @@ abstract class IState<T extends IPage, K extends IController> extends State<T> {
 }
 
 abstract class IPage extends StatefulWidget {
+
   @override
   IState createState();
+
 }
