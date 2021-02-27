@@ -6,7 +6,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return AppProvider(
@@ -36,7 +35,8 @@ class ExampleState extends IState<ExamplePage, ExampleController> {
       appBar: AppBar(
         title: Text("app responsive demo"),
       ),
-      body: buildBody.load().watch<PPage>()(context),
+      body:
+          buildBody.load(refresh: true, loadMore: true).watch<PPage>()(context),
     );
   }
 
@@ -58,14 +58,12 @@ class ExampleState extends IState<ExamplePage, ExampleController> {
 }
 
 class ExampleController extends IController {
-  String text = "android";
-
   List<String> data = [];
 
   @override
-  Future<int> load([int page]) async {
+  Future<int> load([int page = 1]) async {
     final newData = await _loadData(page);
-    return computeLoadingState(data, newData, page, pageRows: 50);
+    return computeLoadingState(data, newData, page, pageRows: 30);
   }
 
   Future<List<String>> _loadData(int page) async {
@@ -73,7 +71,7 @@ class ExampleController extends IController {
     if (page > 3) return [];
 
     return List<String>.generate(
-      50,
+      30,
       (index) => ((page - 1) * 50 + index + 1).toString(),
     );
   }

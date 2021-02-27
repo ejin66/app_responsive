@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import 'icontroller.dart';
 import 'responsive_level.dart';
 
-
-
 /// 这个需要给MaterialApp提供
 ///
 /// AppProvider(
@@ -19,11 +17,11 @@ class AppProvider extends Provider<_AppProviderData> {
     TransitionBuilder builder,
     Widget child,
   }) : super(
-    create: (_) => _AppProviderData(),
-    dispose: (_, data) => data.dispose(),
-    builder: builder,
-    child: child,
-  );
+          create: (_) => _AppProviderData(),
+          dispose: (_, data) => data.dispose(),
+          builder: builder,
+          child: child,
+        );
 
   /// 同种类型只能被expose一次。若多次expose, 在[AppProvider.get()]时默认取最早expose的数据
   static expose(BuildContext context, dynamic data) {
@@ -41,7 +39,8 @@ class AppProvider extends Provider<_AppProviderData> {
         .firstWhere((element) => element is T, orElse: () => null);
   }
 
-  static T watch<T extends IController, K extends Level>(IController controller) {
+  static T watch<T extends IController, K extends Level>(
+      IController controller) {
     if (!controller.isMount()) return null;
 
     final findController = AppProvider.get<T>(controller.buildContext);

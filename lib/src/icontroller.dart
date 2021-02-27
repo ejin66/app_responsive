@@ -8,7 +8,6 @@ import '../app_responsive.dart';
 import 'responsive_level.dart';
 import 'utils.dart';
 
-
 abstract class IController {
   List<SingleChildWidget> providers = [];
 
@@ -87,7 +86,8 @@ abstract class IController {
   }
 
   T get<T extends Level>() {
-    return _levels.firstWhere((element) => element.runtimeType == T, orElse: () => null);
+    return _levels.firstWhere((element) => element.runtimeType == T,
+        orElse: () => null);
   }
 
   mount(covariant IState state) => _iState = state;
@@ -99,8 +99,7 @@ abstract class IController {
 
   _internalLoad([int page]) async {
     page ??= firstPageIndex;
-    loadLevel
-      ..status = await load(page);
+    loadLevel..status = await load(page);
     if (loadLevel.moreStatus == LoadState.moreFailed) {
       loadLevel.currentPage = max(page - 1, firstPageIndex);
     } else {
@@ -119,7 +118,7 @@ abstract class IController {
   }
 
   /// 静默刷新
-  Future silence() async{
+  Future silence() async {
     await _internalLoad(firstPageIndex);
 
     loadLevel.refreshController.refreshCompleted();

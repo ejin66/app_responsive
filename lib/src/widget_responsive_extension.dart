@@ -7,132 +7,69 @@ import 'localizations.dart';
 import 'responsive_level.dart';
 import 'utils.dart';
 
-
-
 typedef WidgetBuilder = Widget Function(BuildContext);
 
 extension WidgetBuilderExtension on WidgetBuilder {
   WidgetBuilder watch<T extends Level>() {
     return (_) => Consumer<T>(
-      builder: (context, value, __) {
-        return this(context);
-      },
-    );
+          builder: (context, value, __) {
+            return this(context);
+          },
+        );
   }
 
   WidgetBuilder watch2<T extends Level, T2 extends Level>() {
     return (_) => Consumer2<T, T2>(
-      builder: (context, value1, value2, __) {
-        return this(context);
-      },
-    );
+          builder: (context, value1, value2, __) {
+            return this(context);
+          },
+        );
   }
 
   WidgetBuilder watch3<T extends Level, T2 extends Level, T3 extends Level>() {
     return (_) => Consumer3<T, T2, T3>(
-      builder: (context, value1, value2, value3, __) {
-        return this(context);
-      },
-    );
+          builder: (context, value1, value2, value3, __) {
+            return this(context);
+          },
+        );
   }
 
   WidgetBuilder watch4<T extends Level, T2 extends Level, T3 extends Level,
-  T4 extends Level>() {
+      T4 extends Level>() {
     return (_) => Consumer4<T, T2, T3, T4>(
-      builder: (context, value1, value2, value3, value4, __) {
-        return this(context);
-      },
-    );
+          builder: (context, value1, value2, value3, value4, __) {
+            return this(context);
+          },
+        );
   }
 
   WidgetBuilder watch5<T extends Level, T2 extends Level, T3 extends Level,
-  T4 extends Level, T5 extends Level>() {
+      T4 extends Level, T5 extends Level>() {
     return (_) => Consumer5<T, T2, T3, T4, T5>(
-      builder: (context, value1, value2, value3, value4, value5, __) {
-        return this(context);
-      },
-    );
+          builder: (context, value1, value2, value3, value4, value5, __) {
+            return this(context);
+          },
+        );
   }
 
   WidgetBuilder watch6<T extends Level, T2 extends Level, T3 extends Level,
-  T4 extends Level, T5 extends Level, T6 extends Level>() {
+      T4 extends Level, T5 extends Level, T6 extends Level>() {
     return (_) => Consumer6<T, T2, T3, T4, T5, T6>(
-      builder: (context, value1, value2, value3, value4, value5, value6, __) {
-        return this(context);
-      },
-    );
+          builder:
+              (context, value1, value2, value3, value4, value5, value6, __) {
+            return this(context);
+          },
+        );
   }
 
   /// 页面加载、刷新、加载更多
   WidgetBuilder load({bool refresh = false, bool loadMore = false}) {
     return (_) => Consumer<Load>(
-      builder: (context, value, __) {
-        return _wrapWidgetWithLoad(context, value, this(context), refresh, loadMore);
-      },
-    );
-  }
-}
-
-extension ResponsiveExtension on Widget {
-  /// 将当前widget纳入[T]的控制范围，一旦[T.notify], 当前widget会刷新
-  Widget watch<T extends Level>() {
-    return Consumer<T>(
-      builder: (_, value, __) {
-        return this;
-      },
-    );
-  }
-
-  Widget watch2<T extends Level, T2 extends Level>() {
-    return Consumer2<T, T2>(
-      builder: (_, value1, value2, __) {
-        return this;
-      },
-    );
-  }
-
-  Widget watch3<T extends Level, T2 extends Level, T3 extends Level>() {
-    return Consumer3<T, T2, T3>(
-      builder: (_, value1, value2, value3, __) {
-        return this;
-      },
-    );
-  }
-
-  Widget watch4<T extends Level, T2 extends Level, T3 extends Level,
-  T4 extends Level>() {
-    return Consumer4<T, T2, T3, T4>(
-      builder: (_, value1, value2, value3, value4, __) {
-        return this;
-      },
-    );
-  }
-
-  Widget watch5<T extends Level, T2 extends Level, T3 extends Level,
-  T4 extends Level, T5 extends Level>() {
-    return Consumer5<T, T2, T3, T4, T5>(
-      builder: (_, value1, value2, value3, value4, value5, __) {
-        return this;
-      },
-    );
-  }
-
-  Widget watch6<T extends Level, T2 extends Level, T3 extends Level,
-  T4 extends Level, T5 extends Level, T6 extends Level>() {
-    return Consumer6<T, T2, T3, T4, T5, T6>(
-      builder: (_, value1, value2, value3, value4, value5, value6, __) {
-        return this;
-      },
-    );
-  }
-
-  /// 页面加载、刷新、加载更多
-  Widget load({bool refresh = false, bool loadMore = false}) {
-    return Consumer<Load>(
-      builder: (context, value, __) {
-        return _wrapWidgetWithLoad(context, value, this, refresh, loadMore);
-      },
-    );
+          builder: (context, value, __) {
+            return _wrapWidgetWithLoad(
+                context, value, this(context), refresh, loadMore);
+          },
+        );
   }
 }
 
@@ -153,7 +90,7 @@ Widget _wrapWidgetWithLoad(BuildContext context, Load load, Widget child,
             child: CircularProgressIndicator(
               strokeWidth: 2,
               valueColor:
-              AlwaysStoppedAnimation(Theme.of(context).primaryColor),
+                  AlwaysStoppedAnimation(Theme.of(context).primaryColor),
             ),
           ),
           DotLoading(

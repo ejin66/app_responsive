@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
-
-
 abstract class ResponsiveString {
-
   String get loading;
   String get clickReload;
   String get noLoadData;

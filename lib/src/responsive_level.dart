@@ -4,8 +4,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'icontroller.dart';
 
-
-
 /// 一个页面中的多个组件，可以分别被多个level标记。当触发level时，被该level标记的组件即可刷新
 /// Scaffold(
 /// 	body: Column(
@@ -19,7 +17,6 @@ import 'icontroller.dart';
 /// 当[scopeB.notifyListeners]时，只有`Text("part 2")`会刷新
 /// 当[page.notifyListeners]时，整个[Scaffold]会刷新
 class Level extends ChangeNotifier {
-
   bool get isActive => !_isDispose;
   bool _isDispose = false;
 
@@ -84,18 +81,19 @@ class Load extends Level {
   Future silence() => controller.silence();
   Future fetchMore() => controller.fetchMore();
   Future fetchMoreSilence() => controller.fetchMoreSilence();
-
 }
 
 class LoadState {
   LoadState._();
 
   static const int idle = 0x0001;
+
   /// 刷新页面时对应的状态
   static const int loaded = 0x0002;
   static const int empty = 0x0003;
   static const int failed = 0x0004;
   static const int loading = 0x0005;
+
   /// 加载更多页面时对应的状态
   static const int moreLoaded = 0x0200;
   static const int noMore = 0x0300;
@@ -105,7 +103,6 @@ class LoadState {
 
 /// 页面级的[Level]
 class PPage extends Level {
-
   final IController controller;
 
   PPage(this.controller);
@@ -117,7 +114,6 @@ class PPage extends Level {
   removeFromApp(BuildContext context) {
     AppProvider.remove(context, controller);
   }
-
 }
 
 /// 约定的次一级的[Level]

@@ -18,7 +18,7 @@
 
 看下面的动图，使用我们的框架是怎样实现的
 
-<img src="https://ejin66.github.io/assets/img/pexels/loaded.gif" width = "400px" />
+<img src="https://ejin66.github.io/assets/img/pexels/loaded.gif" width = "300px" />
 
 首先，每个页面必不可少的`IController`:
 
@@ -38,7 +38,7 @@ class ExampleController extends IController {
 
 > load()方法会在State.initState之后自动触发
 
-再看看布局时怎么写的：
+再看看布局是怎么写的：
 
 ```dart
 class ExampleState extends IState<ExamplePage, ExampleController> {
@@ -77,7 +77,7 @@ class ExampleState extends IState<ExamplePage, ExampleController> {
 
 *数据的加载、刷新、分页、加载空数据*
 
-<img src="https://ejin66.github.io/assets/img/pexels/loading.gif" width = "400px" />  <img src="https://ejin66.github.io/assets/img/pexels/no_data.gif" width = "400px" />
+<img src="https://ejin66.github.io/assets/img/pexels/loading.gif" width = "300px" />  <img src="https://ejin66.github.io/assets/img/pexels/no_data.gif" width = "300px" />
 
 上面的动图，展示了页面的首次加载、空数据情况下的UI、刷新、分页。这些个功能，从头开始写也是很烦人的。看看框架是怎么写的。
 
@@ -194,7 +194,7 @@ class ExampleController extends IController {
 
 3.2. *获取其他页面数据*
 <br />
-<img src="https://ejin66.github.io/assets/img/pexels/next_page.gif" width = "400px" />
+<img src="https://ejin66.github.io/assets/img/pexels/next_page.gif" width = "300px" />
 
 上面动图展示了`page2` 获取前一个页面的数据。在3.1中，展示了如何将数据共享出来，现在看看如何获取其他页面的数据：
 
