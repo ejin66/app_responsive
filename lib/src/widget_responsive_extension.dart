@@ -71,6 +71,11 @@ extension WidgetBuilderExtension on WidgetBuilder {
           },
         );
   }
+
+
+  Widget build(BuildContext context) {
+    return this(context);
+  }
 }
 
 Widget _wrapWidgetWithLoad(BuildContext context, Load load, Widget child,

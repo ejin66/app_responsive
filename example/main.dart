@@ -21,9 +21,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ExamplePage extends IPage {
+class ExamplePage extends StatefulWidget {
   @override
-  IState<IPage, IController> createState() => ExampleState();
+  State createState() => ExampleState();
 }
 
 class ExampleState extends IState<ExamplePage, ExampleController> {

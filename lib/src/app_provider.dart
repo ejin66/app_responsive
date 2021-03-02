@@ -41,13 +41,22 @@ class AppProvider extends Provider<_AppProviderData> {
 
   static T watch<T extends IController, K extends Level>(
       IController controller) {
+    return watchLevel<T, K, PPage>(controller);
+  }
+
+  /// T 被监听页面的IController
+  /// K 被监听页面的level
+  /// J 当前页面Level
+  /// 即监听T页面的K Level, 若有变动，处罚当前页面的J刷新
+  static T watchLevel<T extends IController, K extends Level, J extends Level>(
+      IController controller) {
     if (!controller.isMount()) return null;
 
     final findController = AppProvider.get<T>(controller.buildContext);
     if (findController == null) return null;
 
     findController.get<K>()?.addListener(() {
-      controller.pageLevel.notify();
+      controller.get<J>().notify();
     });
     return findController;
   }

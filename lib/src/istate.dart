@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'icontroller.dart';
 
-abstract class IState<T extends IPage, K extends IController> extends State<T> {
+abstract class IState<T extends StatefulWidget, K extends IController> extends State<T> {
   bool get keepAlive => false;
 
   K get controller;
@@ -35,9 +35,4 @@ abstract class IState<T extends IPage, K extends IController> extends State<T> {
   }
 
   Widget buildChild(BuildContext context);
-}
-
-abstract class IPage extends StatefulWidget {
-  @override
-  IState createState();
 }

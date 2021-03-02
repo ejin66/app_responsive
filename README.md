@@ -10,7 +10,7 @@
 
 现在来看看本框架是如何解决这些痛点的，主要分三个方面来表述：页面UI刷新控制、页面数据加载逻辑的封装、页面间的数据共享。
 
-> 本框架不仅是响应式UI框架，针对逻辑层也做了相应的封装。一个完整的页面通常由`IPage、Istate、IController`三个角色组合完成。
+> 本框架不仅是响应式UI框架，针对逻辑层也做了相应的封装。一个完整的页面通常由`Istate、IController`两个角色组合完成。
 
 ### 阐述
 
@@ -71,7 +71,7 @@ class ExampleState extends IState<ExamplePage, ExampleController> {
 
 > 框架自带的UI控制点有：PPage、Load、Scope、Child。本质上都是一样的继承自`Level`, 但我们约定它们控制范围大小关系：PPage > Load > Scope > Child。
 
-
+> 若使用了除PPage、Load之外的Level, 需要先`IController.useLevel`激活。
 
 #### 2. 页面的数据加载逻辑封装
 
@@ -176,8 +176,8 @@ Widget build(BuidContext context) {
 class ExampleController extends IController {
 
   @override
-  mount(BuildContext context) {
-    super.mount(context);
+  mount(IState state) {
+    super.mount(state);
     get<PPage>().exposeToApp(buildContext);
     /// 或者
     AppProvider.expose(context, this);
@@ -216,8 +216,8 @@ Widget buildBody(BuildContext context) {
 class ... extends IController {
 
   @override
-  mount(BuildContext context) {
-    super.mount(context);
+  mount(IState state) {
+    super.mount(state);
     AppProvider.watch<ExampleController, PPage>(this);
   }
 
