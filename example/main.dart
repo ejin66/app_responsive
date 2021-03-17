@@ -35,8 +35,12 @@ class ExampleState extends IState<ExamplePage, ExampleController> {
       appBar: AppBar(
         title: Text("app responsive demo"),
       ),
-      body:
-          buildBody.load(refresh: true, loadMore: true).watch<PPage>()(context),
+      body: buildBody
+          .load(
+            refresh: true,
+            loadMore: true,
+          )
+          .watch<PPage>()(context),
     );
   }
 

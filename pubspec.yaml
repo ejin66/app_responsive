@@ -1,6 +1,6 @@
 name: app_responsive
 description: A more simple and convenient responsive library. Help us build our project more quickly.
-version: 0.2.0
+version: 0.3.0
 homepage: https://github.com/ejin66
 
 environment:

@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 
 import 'icontroller.dart';
 
-abstract class IState<T extends StatefulWidget, K extends IController> extends State<T> {
+abstract class IState<T extends StatefulWidget, K extends IController>
+    extends State<T> {
   bool get keepAlive => false;
 
   K get controller;

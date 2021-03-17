@@ -63,26 +63,58 @@ extension WidgetBuilderExtension on WidgetBuilder {
   }
 
   /// 页面加载、刷新、加载更多
-  WidgetBuilder load({bool refresh = false, bool loadMore = false}) {
+  WidgetBuilder load({
+    bool refresh = false,
+    bool loadMore = false,
+    Widget initLoading,
+    Widget initFailed,
+    Widget initEmpty,
+    Widget moreLoading,
+    Widget moreFiled,
+    Widget moreEmpty,
+  }) {
     return (_) => Consumer<Load>(
           builder: (context, value, __) {
             return _wrapWidgetWithLoad(
-                context, value, this(context), refresh, loadMore);
+              context,
+              value,
+              this(context),
+              refresh,
+              loadMore,
+              initLoading: initLoading,
+              initFailed: initFailed,
+              initEmpty: initEmpty,
+              moreLoading: moreLoading,
+              moreFiled: moreFiled,
+              moreEmpty: moreEmpty,
+            );
           },
         );
   }
-
 
   Widget build(BuildContext context) {
     return this(context);
   }
 }
 
-Widget _wrapWidgetWithLoad(BuildContext context, Load load, Widget child,
-    bool refresh, bool loadMore) {
+Widget _wrapWidgetWithLoad(
+  BuildContext context,
+  Load load,
+  Widget child,
+  bool refresh,
+  bool loadMore, {
+  Widget initLoading,
+  Widget initFailed,
+  Widget initEmpty,
+  Widget moreLoading,
+  Widget moreFiled,
+  Widget moreEmpty,
+}) {
   if (load.loadStatus == LoadState.idle) return SizedBox.shrink();
 
   if (load.loadStatus == LoadState.loading) {
+    if (initLoading != null) return initLoading;
+
     return Container(
       alignment: Alignment.center,
       child: Row(
@@ -111,6 +143,8 @@ Widget _wrapWidgetWithLoad(BuildContext context, Load load, Widget child,
   }
 
   if (load.loadStatus == LoadState.failed) {
+    if (initFailed != null) return initFailed;
+
     return Container(
       alignment: Alignment.center,
       child: InkWell(
@@ -132,6 +166,8 @@ Widget _wrapWidgetWithLoad(BuildContext context, Load load, Widget child,
   }
 
   if (load.loadStatus == LoadState.empty) {
+    if (initEmpty != null) return initEmpty;
+
     return EmptyComponent();
   }
 
@@ -139,10 +175,16 @@ Widget _wrapWidgetWithLoad(BuildContext context, Load load, Widget child,
     return child;
   }
 
-  var footerHeight = 60.0;
+  Widget footer;
   if (load.moreStatus == LoadState.noMore &&
       load.currentPage == firstPageIndex) {
-    footerHeight = 0;
+    footer = SizedBox.shrink();
+  } else {
+    footer = _getFooter(
+      moreLoading: moreLoading,
+      moreEmpty: moreEmpty,
+      moreFiled: moreFiled,
+    );
   }
 
   return SmartRefresher(
@@ -150,7 +192,7 @@ Widget _wrapWidgetWithLoad(BuildContext context, Load load, Widget child,
     enablePullUp: loadMore,
     enablePullDown: refresh,
     child: child,
-    footer: _getFooter(footerHeight),
+    footer: footer,
     onRefresh: () {
       load.silence();
     },
@@ -160,49 +202,74 @@ Widget _wrapWidgetWithLoad(BuildContext context, Load load, Widget child,
   );
 }
 
-Widget _getFooter(double height) {
+Widget _getFooter({
+  Widget moreLoading,
+  Widget moreFiled,
+  Widget moreEmpty,
+}) {
   return CustomFooter(
-    height: height,
+    height: 60,
     builder: (BuildContext context, LoadStatus mode) {
       Widget body;
+
       if (mode == LoadStatus.idle) {
         body = Container();
-      } else if (mode == LoadStatus.loading) {
-        body = Container(
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(right: 10),
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
+      }
+
+      if (mode == LoadStatus.loading) {
+        if (moreLoading != null) {
+          body = moreLoading;
+        } else {
+          body = Container(
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(right: 10),
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                  ),
                 ),
-              ),
-              DotLoading(
-                ResponsiveString.of(context).loadingMore,
-                textStyle: TextStyle(fontSize: 16, color: Colors.grey[400]),
-              ),
-            ],
-          ),
-        );
-      } else if (mode == LoadStatus.failed) {
-        body = Text(
-          ResponsiveString.of(context).clickReload,
-          style: TextStyle(fontSize: 16, color: Colors.grey[400]),
-        );
-      } else if (mode == LoadStatus.canLoading) {
+                DotLoading(
+                  ResponsiveString.of(context).loadingMore,
+                  textStyle: TextStyle(fontSize: 16, color: Colors.grey[400]),
+                ),
+              ],
+            ),
+          );
+        }
+      }
+
+      if (mode == LoadStatus.failed) {
+        if (moreFiled != null) {
+          body = moreFiled;
+        } else {
+          body = Text(
+            ResponsiveString.of(context).clickReload,
+            style: TextStyle(fontSize: 16, color: Colors.grey[400]),
+          );
+        }
+      }
+
+      if (mode == LoadStatus.canLoading) {
         body = Container();
-      } else {
-        body = Text(
-          ResponsiveString.of(context).noLoadData,
-          style: TextStyle(fontSize: 16, color: Colors.grey[400]),
-        );
+      }
+
+      if (mode == LoadStatus.noMore) {
+        if (moreEmpty != null) {
+          body = moreEmpty;
+        } else {
+          body = Text(
+            ResponsiveString.of(context).noMoreData,
+            style: TextStyle(fontSize: 16, color: Colors.grey[400]),
+          );
+        }
       }
       return Container(
-        height: height,
+        height: 60,
         child: Center(child: body),
       );
     },
