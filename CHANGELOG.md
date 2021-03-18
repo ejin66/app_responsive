@@ -1,10 +1,15 @@
+# 0.4.0 - 2021/3/18
+- 修复内部footer非Sliver的BUG
+- 优化EmptyComponent的显示大小
+- 增加全局的Loading Widget配置：GlobalLoadingWidget
+
 # 0.3.0 - 2021/3/17
 support customize loading ui
 
 # 0.2.0 - 2021/3/2
-- 1. remove IPage
-- 2. add build function in extension
-- 3. add watchLevel in AppProvider
+- remove IPage
+- add build function in extension
+- add watchLevel in AppProvider
 
 # 0.1.0 - 2021/2/27
 format source code

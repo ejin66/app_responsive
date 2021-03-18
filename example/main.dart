@@ -67,12 +67,12 @@ class ExampleController extends IController {
   @override
   Future<int> load([int page = 1]) async {
     final newData = await _loadData(page);
-    return computeLoadingState(data, newData, page, pageRows: 30);
+    return computeLoadingState(data, newData, page, total: 30);
   }
 
   Future<List<String>> _loadData(int page) async {
     await Future.delayed(Duration(seconds: 2));
-    if (page > 3) return [];
+    if (page > 0) return [];
 
     return List<String>.generate(
       30,

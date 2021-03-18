@@ -1,30 +1,46 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'localizations.dart';
 
 class EmptyComponent extends StatelessWidget {
+  final Size size;
+  final Color color;
+
+  EmptyComponent({this.size, this.color = Colors.grey});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          NoDataWidget(),
-          SizedBox(height: 20),
-          Text(
-            ResponsiveString.of(context).noLoadData,
-            style: TextStyle(
-              fontSize: 16,
-              color: Theme.of(context).disabledColor,
+      constraints: BoxConstraints.expand(),
+      child: LayoutBuilder(builder: (context, constraints) {
+        Size _size = size;
+        if (_size == null) {
+          final width = min(constraints.maxWidth, constraints.maxHeight) / 3.5;
+          _size = Size(width, width * 0.75);
+        }
+
+        Widget noDataWidget = NoDataWidget(size: _size, color: color);
+
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            noDataWidget,
+            SizedBox(height: _size.height * 0.1),
+            Text(
+              ResponsiveString.of(context).noLoadData,
+              style: TextStyle(
+                fontSize: 16,
+                color: Theme.of(context).disabledColor,
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      }),
     );
   }
 }
@@ -100,7 +116,7 @@ class NoDataWidget extends StatefulWidget {
 
   NoDataWidget({
     this.color = Colors.grey,
-    this.size = const Size(190, 140),
+    this.size,
     this.duration = const Duration(milliseconds: 600),
   });
 

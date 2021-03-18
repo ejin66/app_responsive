@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
-import 'widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'localizations.dart';
 import 'responsive_level.dart';
 import 'utils.dart';
+import 'widgets.dart';
+
+class GlobalLoadingWidget {
+  GlobalLoadingWidget._();
+
+  static Widget initLoading;
+  static Widget initFailed;
+  static Widget initEmpty;
+  static Widget moreLoading;
+  static Widget moreFailed;
+  static Widget moreEmpty;
+}
 
 typedef WidgetBuilder = Widget Function(BuildContext);
 
@@ -70,7 +81,7 @@ extension WidgetBuilderExtension on WidgetBuilder {
     Widget initFailed,
     Widget initEmpty,
     Widget moreLoading,
-    Widget moreFiled,
+    Widget moreFailed,
     Widget moreEmpty,
   }) {
     return (_) => Consumer<Load>(
@@ -81,12 +92,12 @@ extension WidgetBuilderExtension on WidgetBuilder {
               this(context),
               refresh,
               loadMore,
-              initLoading: initLoading,
-              initFailed: initFailed,
-              initEmpty: initEmpty,
-              moreLoading: moreLoading,
-              moreFiled: moreFiled,
-              moreEmpty: moreEmpty,
+              initLoading: initLoading ?? GlobalLoadingWidget.initLoading,
+              initFailed: initFailed ?? GlobalLoadingWidget.initFailed,
+              initEmpty: initEmpty ?? GlobalLoadingWidget.initEmpty,
+              moreLoading: moreLoading ?? GlobalLoadingWidget.moreLoading,
+              moreFailed: moreFailed ?? GlobalLoadingWidget.moreFailed,
+              moreEmpty: moreEmpty ?? GlobalLoadingWidget.moreEmpty,
             );
           },
         );
@@ -107,7 +118,7 @@ Widget _wrapWidgetWithLoad(
   Widget initFailed,
   Widget initEmpty,
   Widget moreLoading,
-  Widget moreFiled,
+  Widget moreFailed,
   Widget moreEmpty,
 }) {
   if (load.loadStatus == LoadState.idle) return SizedBox.shrink();
@@ -178,12 +189,14 @@ Widget _wrapWidgetWithLoad(
   Widget footer;
   if (load.moreStatus == LoadState.noMore &&
       load.currentPage == firstPageIndex) {
-    footer = SizedBox.shrink();
+    footer = SliverToBoxAdapter(
+      child: SizedBox.shrink(),
+    );
   } else {
     footer = _getFooter(
       moreLoading: moreLoading,
       moreEmpty: moreEmpty,
-      moreFiled: moreFiled,
+      moreFailed: moreFailed,
     );
   }
 
@@ -204,7 +217,7 @@ Widget _wrapWidgetWithLoad(
 
 Widget _getFooter({
   Widget moreLoading,
-  Widget moreFiled,
+  Widget moreFailed,
   Widget moreEmpty,
 }) {
   return CustomFooter(
@@ -244,8 +257,8 @@ Widget _getFooter({
       }
 
       if (mode == LoadStatus.failed) {
-        if (moreFiled != null) {
-          body = moreFiled;
+        if (moreFailed != null) {
+          body = moreFailed;
         } else {
           body = Text(
             ResponsiveString.of(context).clickReload,
