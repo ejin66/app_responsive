@@ -7,6 +7,7 @@ import 'package:provider/single_child_widget.dart';
 import '../app_responsive.dart';
 import 'responsive_level.dart';
 import 'utils.dart';
+import 'package:collection/collection.dart';
 
 abstract class IController {
   List<SingleChildWidget> providers = [];
@@ -15,11 +16,11 @@ abstract class IController {
 
   List<Level> get levels => _levels;
 
-  PPage pageLevel;
-  Load loadLevel;
+  late PPage pageLevel;
+  late Load loadLevel;
 
-  IState _iState;
-  BuildContext get buildContext => _iState?.context;
+  IState? _iState;
+  BuildContext? get buildContext => _iState?.context;
 
   bool isMount() => _iState != null;
 
@@ -31,12 +32,12 @@ abstract class IController {
   }
 
   /// 当需要使用更多了level时，需要先调用该方法
-  bool useLevel<T extends Level>([T level]) {
+  bool useLevel<T extends Level>([T? level]) {
     if (get<T>() != null) {
       throw Exception("the $T level has been used");
     }
 
-    Level _level = level;
+    Level? _level = level;
     if (_level == null) {
       switch (T) {
         case Scope:
@@ -76,7 +77,7 @@ abstract class IController {
 
     _levels.add(_level);
 
-    providers.add(ChangeNotifierProvider<T>.value(value: _level));
+    providers.add(ChangeNotifierProvider<T>.value(value: _level as T));
 
     if (isMount()) {
       _iState?.rebuild();
@@ -85,9 +86,12 @@ abstract class IController {
     return true;
   }
 
-  T get<T extends Level>() {
-    return _levels.firstWhere((element) => element.runtimeType == T,
-        orElse: () => null);
+  T? get<T extends Level>() {
+    final level =
+        _levels.firstWhereOrNull((element) => element.runtimeType == T);
+    if (level == null) return null;
+
+    return level as T;
   }
 
   mount(covariant IState state) => _iState = state;
@@ -95,9 +99,9 @@ abstract class IController {
   unmount() => _iState = null;
 
   /// 页面初始化时调用
-  Future<int> load([int page]);
+  Future<int> load(int page);
 
-  _internalLoad([int page]) async {
+  _internalLoad([int? page]) async {
     page ??= firstPageIndex;
     loadLevel..status = await load(page);
     if (loadLevel.moreStatus == LoadState.moreFailed) {
@@ -184,18 +188,20 @@ abstract class IController {
   /// total: 总的数据量
   /// pageRows: 每页加载的总条数
   /// 要求total、pageRows两个必须传一次
-  int computeLoadingState<T>(List<T> originData, List<T> loadData, int page,
-      {int total, int pageRows}) {
+  int computeLoadingState<T>(List<T> originData, List<T>? loadData, int page,
+      {int? total, int? pageRows}) {
+    assert(total != null || pageRows != null);
     if (total == null) {
-      total = page * pageRows + 1;
+      total = page * pageRows! + 1;
     }
 
     if (page == firstPageIndex) {
       originData.clear();
-      originData.addAll(loadData);
       if (loadData == null || loadData.isEmpty) {
         return LoadState.empty;
       }
+
+      originData.addAll(loadData);
 
       if (pageRows != null && loadData.length < pageRows) {
         return LoadState.loaded | LoadState.noMore;
@@ -227,7 +233,7 @@ abstract class IController {
 
   @mustCallSuper
   dispose() {
-    if (isMount()) pageLevel.removeFromApp(buildContext);
+    if (isMount()) pageLevel.removeFromApp(buildContext!);
     _levels.forEach((element) {
       element.dispose();
     });

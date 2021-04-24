@@ -13,7 +13,7 @@ abstract class IState<T extends StatefulWidget, K extends IController>
   void initState() {
     super.initState();
     controller.mount(this);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       controller.refresh();
     });
   }

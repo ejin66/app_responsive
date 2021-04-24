@@ -1,17 +1,18 @@
 name: app_responsive
 description: A more simple and convenient responsive library. Help us build our project more quickly.
-version: 0.4.0
+version: 1.0.0
 homepage: https://github.com/ejin66
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.17.0"
+  sdk: ">=2.12.0 <3.0.0"
+  flutter: ">=2.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^4.3.3
-  pull_to_refresh: ^1.6.3
+  provider: ^5.0.0
+  pull_to_refresh: ^1.6.4-nullsafety.0
+  collection: ^1.15.0
 
 dev_dependencies:
   flutter_test:

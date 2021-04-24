@@ -1,3 +1,6 @@
+# 1.0.0 - 2021/4/24
+support null safety
+
 # 0.4.0 - 2021/3/18
 - 修复内部footer非Sliver的BUG
 - 优化EmptyComponent的显示大小

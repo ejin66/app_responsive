@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'localizations.dart';
 
 class EmptyComponent extends StatelessWidget {
-  final Size size;
+  final Size? size;
   final Color color;
 
   EmptyComponent({this.size, this.color = Colors.grey});
@@ -18,7 +18,7 @@ class EmptyComponent extends StatelessWidget {
     return Container(
       constraints: BoxConstraints.expand(),
       child: LayoutBuilder(builder: (context, constraints) {
-        Size _size = size;
+        Size? _size = size;
         if (_size == null) {
           final width = min(constraints.maxWidth, constraints.maxHeight) / 3.5;
           _size = Size(width, width * 0.75);
@@ -47,7 +47,7 @@ class EmptyComponent extends StatelessWidget {
 
 class DotLoading extends StatefulWidget {
   final String text;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
 
   DotLoading(this.text, {this.textStyle});
 
@@ -56,7 +56,7 @@ class DotLoading extends StatefulWidget {
 }
 
 class _DotLoadingState extends State<DotLoading> with TickerProviderStateMixin {
-  Timer timer;
+  Timer? timer;
   int _count = 1;
 
   @override
@@ -116,7 +116,7 @@ class NoDataWidget extends StatefulWidget {
 
   NoDataWidget({
     this.color = Colors.grey,
-    this.size,
+    this.size = Size.zero,
     this.duration = const Duration(milliseconds: 600),
   });
 
@@ -126,7 +126,7 @@ class NoDataWidget extends StatefulWidget {
 
 class _NoDataWidgetState extends State<NoDataWidget>
     with TickerProviderStateMixin {
-  AnimationController animationController;
+  late AnimationController animationController;
 
   _NoDataWidgetState(Duration duration) {
     animationController = AnimationController(vsync: this, duration: duration);
@@ -148,7 +148,7 @@ class _NoDataWidgetState extends State<NoDataWidget>
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      builder: (BuildContext context, Widget child) {
+      builder: (context, child) {
         return CustomPaint(
           painter: NoDataPainter(animationController.value, widget.color),
           size: widget.size,
@@ -165,7 +165,7 @@ class NoDataPainter extends CustomPainter {
 
   double time;
 
-  List<AnimatePath> animatedPathList;
+  late List<AnimatePath> animatedPathList;
 
   NoDataPainter(this.time, this.color) {
     painter.color = color;
@@ -273,7 +273,7 @@ abstract class AnimatePath {
 
 class AnimatedPoint extends AnimatePath {
   final Offset offset;
-  final double thick;
+  final double? thick;
 
   AnimatedPoint(rangeTime, this.offset, {this.thick}) : super(rangeTime);
 
@@ -297,7 +297,7 @@ class AnimatedArc extends AnimatePath {
   final double radius;
   final double startAngle;
   final double endAngle;
-  final double thick;
+  final double? thick;
 
   AnimatedArc(TimeRange timeRange, this.offset, this.radius, this.startAngle,
       this.endAngle,
@@ -339,7 +339,7 @@ class AnimatedCircle extends AnimatedArc {
 class AnimatedHorizontalLine extends AnimatePath {
   Offset start;
   Offset end;
-  final double thick;
+  final double? thick;
 
   AnimatedHorizontalLine(timeRange, this.start, this.end, {this.thick})
       : super(timeRange);

@@ -10,12 +10,12 @@ import 'widgets.dart';
 class GlobalLoadingWidget {
   GlobalLoadingWidget._();
 
-  static Widget initLoading;
-  static Widget initFailed;
-  static Widget initEmpty;
-  static Widget moreLoading;
-  static Widget moreFailed;
-  static Widget moreEmpty;
+  static Widget? initLoading;
+  static Widget? initFailed;
+  static Widget? initEmpty;
+  static Widget? moreLoading;
+  static Widget? moreFailed;
+  static Widget? moreEmpty;
 }
 
 typedef WidgetBuilder = Widget Function(BuildContext);
@@ -77,12 +77,12 @@ extension WidgetBuilderExtension on WidgetBuilder {
   WidgetBuilder load({
     bool refresh = false,
     bool loadMore = false,
-    Widget initLoading,
-    Widget initFailed,
-    Widget initEmpty,
-    Widget moreLoading,
-    Widget moreFailed,
-    Widget moreEmpty,
+    Widget? initLoading,
+    Widget? initFailed,
+    Widget? initEmpty,
+    Widget? moreLoading,
+    Widget? moreFailed,
+    Widget? moreEmpty,
   }) {
     return (_) => Consumer<Load>(
           builder: (context, value, __) {
@@ -114,12 +114,12 @@ Widget _wrapWidgetWithLoad(
   Widget child,
   bool refresh,
   bool loadMore, {
-  Widget initLoading,
-  Widget initFailed,
-  Widget initEmpty,
-  Widget moreLoading,
-  Widget moreFailed,
-  Widget moreEmpty,
+  Widget? initLoading,
+  Widget? initFailed,
+  Widget? initEmpty,
+  Widget? moreLoading,
+  Widget? moreFailed,
+  Widget? moreEmpty,
 }) {
   if (load.loadStatus == LoadState.idle) return SizedBox.shrink();
 
@@ -216,14 +216,14 @@ Widget _wrapWidgetWithLoad(
 }
 
 Widget _getFooter({
-  Widget moreLoading,
-  Widget moreFailed,
-  Widget moreEmpty,
+  Widget? moreLoading,
+  Widget? moreFailed,
+  Widget? moreEmpty,
 }) {
   return CustomFooter(
     height: 60,
-    builder: (BuildContext context, LoadStatus mode) {
-      Widget body;
+    builder: (context, mode) {
+      late Widget body;
 
       if (mode == LoadStatus.idle) {
         body = Container();

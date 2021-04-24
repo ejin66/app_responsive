@@ -52,7 +52,7 @@ class Level extends ChangeNotifier {
 class Load extends Level {
   final IController controller;
 
-  int currentPage;
+  late int currentPage;
 
   int loadStatus = LoadState.idle;
   int moreStatus = LoadState.noMore;
@@ -66,13 +66,13 @@ class Load extends Level {
     }
   }
 
-  RefreshController _refreshController;
+  RefreshController? _refreshController;
   RefreshController get refreshController {
     if (_refreshController == null) {
       _refreshController = RefreshController();
     }
 
-    return _refreshController;
+    return _refreshController!;
   }
 
   Load(this.controller);
