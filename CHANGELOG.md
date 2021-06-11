@@ -1,3 +1,6 @@
+# 1.0.1 - 2021/6/11
+support null safety: update pull_to_refresh version to v2.0.0
+
 # 1.0.0 - 2021/4/24
 support null safety
 
